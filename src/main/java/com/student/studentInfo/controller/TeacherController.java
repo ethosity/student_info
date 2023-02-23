@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +31,13 @@ public class TeacherController {
 
     @GetMapping("/getTeacherInfo")
     public Response getTeacherInfo(@RequestParam Map<String, Object> params){
-        Map<String, Object> map = teacherService.getTeacherInfo1(params);
         Response response = new Response();
+        Map<String, Object> map = new HashMap<>();
+        try {
+            map = teacherService.getTeacherInfo1(params);
+        }catch (Exception e){
+            map.put("msg", e.getMessage());
+        }
         response.setData(map);
         return response;
     }
